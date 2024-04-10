@@ -7,5 +7,5 @@ To start the environment you will need to have `venv` installed through python.
 
 `sudo apt install python3.10-venv`
 
-To start the environment do `source myenv/bin/activate` and `deactivate` to stop it.
+To start the environment do `source block-event-listener-ui/bin/activate` and `deactivate` to stop it.
 This environment should already have `boto3` and `nicegui` installed and should act the same way a `node_modules` folder does.
