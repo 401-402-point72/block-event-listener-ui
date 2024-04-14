@@ -1,9 +1,7 @@
 # Blockchain Event Listener UI
 
+ Make sure you have Node.js => 18.3
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
@@ -11,17 +9,16 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Packages
+### Dependencies
 
 ```sh
 npm i @aws-sdk/client-s3
 npm install --save-dev dotenv dotenv-webpack
+```
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
 
 ### Type-Check, Compile and Minify for Production
