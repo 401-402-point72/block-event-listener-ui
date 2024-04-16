@@ -1,0 +1,13 @@
+<script setup lang="ts">
+import Search from '@/components/dashboard/search.vue';
+import Time from '@/components/dashboard/time.vue';
+import Tps from '@/components/dashboard/tps.vue';
+import Stake from '@/components/dashboard/stake.vue';
+</script>
+
+<template>
+  <Search />
+  <Time />
+  <Tps />
+  <Stake />
+</template>
