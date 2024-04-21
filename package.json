@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.556.0",
     "amcharts3": "^3.21.15",
     "clsx": "^2.1.0",
     "vue": "^3.4.21",

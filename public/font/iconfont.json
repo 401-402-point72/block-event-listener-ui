@@ -1,0 +1,30 @@
+{
+  "id": "4510607",
+  "name": "solanabeach-vue",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11215209",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "15987531",
+      "name": "下降",
+      "font_class": "xiajiang",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "15987518",
+      "name": "上升",
+      "font_class": "shangsheng",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    }
+  ]
+}

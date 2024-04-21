@@ -1,17 +1,46 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import NumScroll from '../num-scroll.vue';
 import Tooltip from '../tooltip.vue';
+import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 const number = ref('260235759');
 
 setInterval(() => {
   number.value = String(Number(number.value) - 1);
 }, 800);
+const s3Objects = reactive<object[]>([]);
+const accessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
+const secretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+
+onMounted(async () => {
+  const s3Client = new S3Client({
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId,
+      secretAccessKey,
+    },
+  });
+  const bucketName = 'rustbucketethereum';
+
+  try {
+    const response = await s3Client.send(
+      new ListObjectsV2Command({ Bucket: bucketName })
+    );
+    console.log(response);
+
+    if (response.Contents) {
+      s3Objects.push(...response.Contents);
+    }
+  } catch (error) {
+    console.error('Error fetching S3 objects:', error);
+  }
+});
 </script>
 
 <template>
   <div>
+    {{ s3Objects }}
     <div
       class="flex flex-col min-w-0 text-[rgb(211,211,211)] border-none bg-[rgb(49,49,49)] overflow-visible relative py-[15px] px-[30px] sm:py-[30px] sm:px-[60px] sm:rounded-[20px]"
       style="

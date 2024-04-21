@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import StakeTab from './stake-tab/stake-tab.vue';
+</script>
 
 <template>
   <div
@@ -85,7 +87,98 @@
           class="h-full w-[1px] bg-[rgba(29,29,29,0.5)] my-0 mx-[45px] flex-1"
         ></div>
       </div>
-      <div>2</div>
+      <div class="flex flex-col flex-grow">
+        <div class="flex sm:hidden flex-row flex-wrap justify-between">
+          <div
+            class="flex sm:hidden flex-col justify-between sm:flex-row mb-4 lg:mb-0"
+          >
+            <div class="text-[rgb(58,216,139)] flex items-center">
+              <i class="iconfont font-black">&#xe615;</i>
+              <span>0.1%</span>
+            </div>
+          </div>
+          <div class="flex flex-col items-end">
+            <div class="flex items-center w-full">
+              <small
+                class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
+                style="text-transform: uppercase"
+                >24h Volume:</small
+              >
+              <p
+                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                style="text-transform: uppercase"
+              >
+                3.3b
+              </p>
+            </div>
+            <div class="flex justify-start items-center w-full">
+              <small
+                class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
+                style="text-transform: uppercase"
+                >MARKET CAP (fully diluted):</small
+              >
+              <p
+                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                style="text-transform: uppercase"
+              >
+                0.0
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="hidden sm:flex">
+          <div class="flex justify-between items-center w-full mb-4 lg:mb-0">
+            <div class="flex items-center">
+              <div>
+                <div class="flex items-center w-full justify-between">
+                  <div>
+                    <p
+                      class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto"
+                    >
+                      <small
+                        class="opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-0 mr-[5px]"
+                        >$</small
+                      >
+                      <span>133.84</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ml-1 md:ml-4 text-[rgb(58,216,139)] flex items-center"
+              >
+                <i class="iconfont font-black">&#xe615;</i>
+                <span>0.1%</span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end">
+              <div class="flex justify-end items-center w-full">
+                <small class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
+                  >24H Volume ($)</small
+                >
+                <p
+                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                  style="text-transform: uppercase"
+                >
+                  3.3b
+                </p>
+              </div>
+              <div class="flex justify-end items-center w-full">
+                <small class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
+                  >Market Cap in USD (fully diluted)</small
+                >
+                <p
+                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                  style="text-transform: uppercase"
+                >
+                  112.5b
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <StakeTab />
+      </div>
     </div>
   </div>
 </template>

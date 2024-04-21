@@ -13,7 +13,7 @@
             >
               <!--search -->
               <div
-                class="flex items-center flex-1 flex-wrap relative overflow-hidden py-[10px] px-[19px] bg-[rgb(49,49,49)] shadow-none rounded-[15px]"
+                class="flex items-center flex-1 flex-wrap relative overflow-hidden py-[10px] px-[19px] bg-[rgb(49,49,49)] shadow-none rounded-[15px] max-sm:hidden"
               >
                 <div
                   class="text-white z-10 m-[2px] py-[2px] visible"
@@ -47,11 +47,7 @@
                 class="flex items-center self-center flex-shrink-0 box-border absolute right-0"
               >
                 <button
-                  style="
-                    border-top-right-radius: 15px;
-                    border-bottom-right-radius: 15px;
-                  "
-                  class="text-[rgb(136,136,136)] hover:text-white border-0 py-[13px] px-[19px] bg-[rgb(49,49,49)]"
+                  class="text-[rgb(136,136,136)] search-icon hover:text-white border-0 py-[13px] px-[19px] bg-[rgb(49,49,49)]"
                 >
                   <svg
                     width="24"
@@ -89,3 +85,15 @@
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.search-icon {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+
+  @media only screen and (max-width: 640px) {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+}
+</style>

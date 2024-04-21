@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'iconfont';
+  src: url('/font/iconfont.woff2?t=1713267754855') format('woff2'),
+    url('/font/iconfont.woff?t=1713267754855') format('woff'),
+    url('/font/iconfont.ttf?t=1713267754855') format('truetype');
+}
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 24px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 *,
 ::after,
 ::before {
