@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('/font/iconfont.woff2?t=1713267754855') format('woff2'),
+    url('/font/iconfont.woff?t=1713267754855') format('woff'),
+    url('/font/iconfont.ttf?t=1713267754855') format('truetype');
+}
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 24px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+body {
+  font-style: normal;
+  font-weight: 400;
+  background: rgb(38, 38, 38);
+  height: 100%;
+  width: 100%;
+  transition: background 0.3s ease 0s;
+  font-family: Inter, 'Helvetica Neue', sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; */
+}
