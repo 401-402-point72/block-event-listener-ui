@@ -26,6 +26,11 @@ const routers: RouteRecordRaw[] = [
         name: 'CoinGeckoTest',
         component: () => import('../view/coingecko/coinTestPage.vue'), // Path to your S3 test page
       },
+      {
+        path: 'transaction-view',
+        name: 'transactionView',
+        component: () => import('../view/transactionView/transactionView.vue'),
+      }
     ],
   },
 ];
