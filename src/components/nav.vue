@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 <template>
   <div
-    class="fixed left-0 right-0 top-[60px] bg-[rgb(40,40,40)] hidden lg:block lg:z-20"
+    class="fixed left-0 right-0 top-[60px] bg-[#081d35] hidden lg:block lg:z-20"
   >
     <div class="container">
       <div class="flex justify-between">

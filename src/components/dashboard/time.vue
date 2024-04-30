@@ -40,13 +40,13 @@ onMounted(async () => {
 
 <template>
   <div>
-    {{ s3Objects }}
+    <!-- {{ s3Objects }} -->
     <div
-      class="flex flex-col min-w-0 text-[rgb(211,211,211)] border-none bg-[rgb(49,49,49)] overflow-visible relative py-[15px] px-[30px] sm:py-[30px] sm:px-[60px] sm:rounded-[20px]"
+      class="flex flex-col min-w-0 border-none bg-gray-100 overflow-visible relative py-[15px] px-[30px] sm:py-[30px] sm:px-[60px] sm:rounded-[20px]"
       style="
         background-clip: border-box;
         word-wrap: break-word;
-        box-shadow: rgb(0 0 0 / 20%) 0px 15px 30px 0px;
+        box-shadow: rgb(0 0 0 / 10%) 0px 15px 30px 0px;
       "
     >
       <div
@@ -57,15 +57,13 @@ onMounted(async () => {
             <div class="flex items-start w-full justify-center flex-col">
               <small
                 class="text-sm text-[rgb(136,136,136)] -tracking-[0.5px] block pb-0 relative"
-                >Slot Height</small
+                >Block Number</small
               >
               <NumScroll :number="number" />
             </div>
           </div>
           <div class="hidden lg:flex flex-col">
-            <div
-              class="h-full w-[1px] bg-[rgba(29,29,29,0.5)] my-0 mx-[45px] flex-1"
-            ></div>
+            <div class="h-full w-[1px] bg-gray-200 my-0 mx-[45px] flex-1"></div>
           </div>
           <div class="mb-4 lg:mb-0">
             <Tooltip
@@ -77,9 +75,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="hidden lg:flex flex-col">
-          <div
-            class="h-full w-[1px] bg-[rgba(29,29,29,0.5)] my-0 mx-[45px] flex-1"
-          ></div>
+          <div class="h-full w-[1px] bg-gray-200 my-0 mx-[45px] flex-1"></div>
         </div>
         <div class="flex-grow">
           <div class="p-0">
@@ -90,7 +86,7 @@ onMounted(async () => {
             </Tooltip>
             <div class="flex items-center">
               <p
-                class="text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] mb-0 font-bold leading-none"
+                class="text-4xl text-primary -tracking-[0.6px] mb-0 font-bold leading-none"
               >
                 602
               </p>
@@ -98,7 +94,7 @@ onMounted(async () => {
                 class="leading-[0] text-xs bg-[rgb(38,38,38)] rounded-[20px] h-[0.8rem] flex items-center flex-1 my-0 mx-[5px] relative overflow-visible py-[5px] px-[3px]"
               >
                 <div
-                  class="flex flex-col justify-center overflow-hidden text-white text-center whitespace-nowrap bg-[rgb(105,245,225)] h-2 rounded-[30px]"
+                  class="flex flex-col justify-center overflow-hidden text-white text-center whitespace-nowrap bg-primary h-2 rounded-[30px]"
                   style="transition: width 0.6s ease; width: 78%"
                 ></div>
               </div>

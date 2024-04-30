@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Text from '@/components/text.vue';
 import { reactive, onMounted } from 'vue';
 import s3Client from '@/services/s3Client.ts';
 import {
@@ -7,7 +6,7 @@ import {
   ListObjectsV2Command,
   _Object,
 } from '@aws-sdk/client-s3';
-import { s3DataType, transfromTXDataType } from '../data';
+import { s3DataType } from '../data';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRoute } from 'vue-router';
@@ -16,20 +15,16 @@ dayjs.extend(relativeTime);
 
 const bucketName = 'rustbucketethereum';
 const s3Objects = reactive<_Object[]>([]);
-const data = reactive<transfromTXDataType[]>([]);
+const data = reactive<s3DataType[]>([]);
 const { query } = useRoute();
 
 const pageProps = reactive({
   pageNum: Number(query?.p || 1) as number,
-  pageSize: 500,
+  pageSize: 10,
 });
 
-function blockClick(item: transfromTXDataType) {
-  window.localStorage.setItem('blockItem', JSON.stringify(item.blockInfo));
-}
-
-function transactionClick(item: transfromTXDataType) {
-  window.localStorage.setItem('transactionItem', JSON.stringify(item));
+function blockClick(item: s3DataType) {
+  window.localStorage.setItem('blockItem', JSON.stringify(item));
 }
 
 async function fetchS3Objects() {
@@ -43,29 +38,12 @@ async function fetchS3Objects() {
   }
 }
 
-function transformData(data: s3DataType[]) {
-  const arr = [];
-  for (const object of data) {
-    const transactions = object.content.transactions;
-    for (const transaction of transactions) {
-      arr.push({
-        ...transaction,
-        blockNumber: object.key,
-        timestamp: object.content.timestamp,
-        blockInfo: object,
-      });
-    }
-  }
-  return arr;
-}
-
 async function s3DataAsJson() {
-  let result: transfromTXDataType[] = [];
   if (s3Objects.length === 0) {
     await fetchS3Objects();
   }
 
-  const fullData: s3DataType[] = [];
+  let fullData: s3DataType[] = [];
   for (const object of s3Objects) {
     try {
       const getObjectParams = { Bucket: bucketName, Key: object.Key };
@@ -77,20 +55,18 @@ async function s3DataAsJson() {
       const _data = await objectData?.Body?.transformToString();
       const jsonContent: s3DataType['content'] = JSON.parse(_data || ''); // Parse the raw data
       const length = pageProps.pageNum * pageProps.pageSize; // total
-      if (result.length < length) {
+      if (fullData.length < length) {
         fullData.push({ key: object.Key, content: jsonContent });
-        const newData = transformData(fullData);
-        result.push(...newData);
       } else {
         const start = pageProps.pageNum === 1 ? 0 : pageProps.pageSize;
-        result = result.slice(start, length);
+        fullData = fullData.slice(start, length);
         break;
       }
     } catch (error) {
       console.error(error);
     }
   }
-  data.push(...result);
+  data.push(...fullData);
 }
 
 onMounted(() => {
@@ -112,7 +88,7 @@ onMounted(() => {
             <li>
               <a
                 class="p-2 bg-[#f8f9fa]"
-                :href="`/transactions/?p=${
+                :href="`/blocks/?p=${
                   pageProps.pageNum - 1 === 0 ? 1 : pageProps.pageNum - 1
                 }`"
               >
@@ -127,7 +103,7 @@ onMounted(() => {
             <li>
               <a
                 class="p-2 bg-[#f8f9fa]"
-                :href="`/transactions/?p=${pageProps.pageNum + 1}`"
+                :href="`/blocks/?p=${pageProps.pageNum + 1}`"
               >
                 Next
               </a>
@@ -144,12 +120,6 @@ onMounted(() => {
                   class="border-none text-[#262626] font-bold text-sm pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
                   style="text-transform: uppercase"
                 >
-                  Transaction Hash
-                </th>
-                <th
-                  class="border-none text-[#262626] text-sm font-bold pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
-                  style="text-transform: uppercase"
-                >
                   Block
                 </th>
                 <th
@@ -162,26 +132,32 @@ onMounted(() => {
                   class="border-none text-[#262626] text-sm font-bold pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
                   style="text-transform: uppercase"
                 >
-                  From
+                  Txn
                 </th>
                 <th
                   class="border-none text-[#262626] text-sm font-bold pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
                   style="text-transform: uppercase"
                 >
-                  To
+                  Fee Recipient
                 </th>
                 <th
                   class="border-none text-[#262626] text-sm font-bold pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
                   style="text-transform: uppercase"
                 >
-                  Value
+                  Gas Used
+                </th>
+                <th
+                  class="border-none text-[#262626] text-sm font-bold pt-[1.625rem] px-[1.375rem] pb-2 align-middle first:text-left"
+                  style="text-transform: uppercase"
+                >
+                  Gas Limit
                 </th>
               </tr>
             </thead>
             <tbody class="whitespace-nowrap border-none font-normal">
               <tr
                 v-for="item in data"
-                :key="item.blockNumber"
+                :key="item.key"
                 class="border border-solid border-gray-200 font-normal"
               >
                 <td
@@ -189,13 +165,13 @@ onMounted(() => {
                 >
                   <div class="whitespace-nowrap">
                     <a
-                      :href="`/transaction/${item.hash}`"
+                      :href="`/block/${item.key}`"
                       class="text-primary hover:underline"
-                      @click="transactionClick(item)"
+                      @click="blockClick(item)"
                     >
                       <span
                         class="ml-[5px] text-ellipsis overflow-hidden max-w-[10rem] block"
-                        >{{ item.hash }}</span
+                        >{{ item.key }}</span
                       >
                     </a>
                   </div>
@@ -203,44 +179,28 @@ onMounted(() => {
                 <td
                   class="border-none font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle"
                 >
-                  <span class="relative overflow-visible inline-flex mr-[4px]">
-                    <a
-                      :href="`/block/${item.blockNumber}`"
-                      class="text-[#0056b3] ml-2 hover:underline"
-                      @click="blockClick(item)"
-                    >
-                      <span class="text-ellipsis overflow-hidden">{{
-                        item.blockNumber
-                      }}</span>
-                    </a>
+                  <span
+                    class="relative overflow-visible inline-flex mr-[4px] text-[#000]"
+                  >
+                    {{ dayjs(item.content.timestamp).fromNow() }}
                   </span>
                 </td>
                 <td
                   class="border-none text-ellipsis overflow-hidden font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle text-[#000]"
                 >
-                  {{ dayjs(item.timestamp).fromNow() }}
+                  {{ item.content.numberOfTransactions }}
                 </td>
                 <td
                   class="text-[#000] border-none text-ellipsis overflow-hidden font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle"
                 >
-                  <Text :copyed="{ text: item.from }">
-                    <span class="text-ellipsis overflow-hidden max-w-[10rem]">
-                      {{ item.from }}
-                    </span>
-                  </Text>
+                  {{ item.content.authorAddress }}
                 </td>
                 <td
                   class="border-none text-[#000] font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle"
                 >
                   <div class="relative cursor-default inline-flex">
                     <div class="relative cursor-default inline-block">
-                      <Text :copyed="{ text: item.to }">
-                        <span
-                          class="text-ellipsis overflow-hidden max-w-[10rem]"
-                        >
-                          {{ item.to }}
-                        </span>
-                      </Text>
+                      {{ item.content.blockGasUsed }}
                     </div>
                   </div>
                 </td>
@@ -251,7 +211,7 @@ onMounted(() => {
                     <div
                       class="relative cursor-default inline-block text-ellipsis overflow-hidden text-[#000]"
                     >
-                      {{ item.ethValue }}
+                      {{ item.content.gasLimit }}
                     </div>
                   </div>
                 </td>

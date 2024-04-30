@@ -11,12 +11,10 @@ const activeKey = ref('price');
       v-for="tab in tabConfig"
       :key="tab.key"
       :class="
-        clsx(
-          'bg-none border-none font-bold mr-[10px] mb-[5px] text-[rgb(105,245,225)] ',
-          {
-            'text-[rgb(136,136,136)]': activeKey !== tab.key,
-          }
-        )
+        clsx('bg-none border-none font-bold mr-[10px] mb-[5px] ', {
+          'text-[rgb(136,136,136)]': activeKey !== tab.key,
+          ' text-primary': activeKey === tab.key,
+        })
       "
       @click="activeKey = tab.key"
     >

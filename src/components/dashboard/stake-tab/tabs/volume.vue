@@ -38,7 +38,7 @@ onMounted(() => {
   chart = AmCharts.makeChart(main.value!, {
     type: 'serial',
     theme: 'none',
-    color: 'rgb(105, 245, 225)',
+    color: '#0784c3',
     // pathToImages: '/lib/3/images/',
     dataProvider: chartData,
     graphs: [
@@ -48,13 +48,13 @@ onMounted(() => {
         lineThickness: 2,
         title: 'intra-day',
         valueField: 'value1',
-        lineColor: 'rgb(105, 245, 225)', // 设置折线图的颜色为蓝色
+        lineColor: '#0784c3', // 设置折线图的颜色为蓝色
       },
     ],
     zoomOutButtonRollOverAlpha: 0.15,
     chartCursor: {
       showNextAvailable: false,
-      cursorColor: 'rgb(105, 245, 225)', // 设置底部工具的颜色为蓝色
+      cursorColor: '#0784c3', // 设置底部工具的颜色为蓝色
     },
     autoMarginOffset: 5,
     columnWidth: 1,

@@ -4,7 +4,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
 
 <template>
   <div
-    class="my-6 flex flex-col min-w-0 bg-clip-border text-[rgb(211,211,211)] border-none bg-[rgb(49,49,49)] rounded-lg py-[15px] px-[30px] overflow-hidden relative sm:py-[30px] sm:px-[60px] sm:rounded-[20px]"
+    class="my-6 flex flex-col min-w-0 bg-clip-border border-none bg-gray-100 rounded-lg py-[15px] px-[30px] overflow-hidden relative sm:py-[30px] sm:px-[60px] sm:rounded-[20px]"
     style="box-shadow: rgb(0 0 0 / 20%) 0px 15px 30px 0px"
   >
     <div class="flex flex-col md:flex-row">
@@ -19,16 +19,16 @@ import StakeTab from './stake-tab/stake-tab.vue';
                   Circulating Supply
                 </small>
                 <p
-                  class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto"
+                  class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto"
                 >
                   <small
-                    class="opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-0 mr-[5px]"
+                    class="opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-0 mr-[5px]"
                     >◎</small
                   >
                   <span>446.6</span>
                   <small
                     style="text-transform: uppercase"
-                    class="leading-none opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-[5px]"
+                    class="leading-none opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-[5px]"
                   >
                     m
                   </small>
@@ -40,7 +40,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
             of
             <span style="text-transform: uppercase">574.0m</span>
             :
-            <span class="text-[rgb(105,245,225)] font-semibold ml-1 mr-1">
+            <span class="text-primary font-semibold ml-1 mr-1">
               <span>77.8%</span>
             </span>
           </small>
@@ -55,16 +55,16 @@ import StakeTab from './stake-tab/stake-tab.vue';
                   Active Stake
                 </small>
                 <p
-                  class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto"
+                  class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto"
                 >
                   <small
-                    class="opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-0 mr-[5px]"
+                    class="opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-0 mr-[5px]"
                     >◎</small
                   >
                   <span>378.5</span>
                   <small
                     style="text-transform: uppercase"
-                    class="leading-none opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-[5px]"
+                    class="leading-none opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-[5px]"
                   >
                     m
                   </small>
@@ -76,23 +76,21 @@ import StakeTab from './stake-tab/stake-tab.vue';
             of
             <span style="text-transform: uppercase">574.0m</span>
             :
-            <span class="text-[rgb(105,245,225)] font-semibold ml-1 mr-1">
+            <span class="text-primary font-semibold ml-1 mr-1">
               <span>65.9%</span>
             </span>
           </small>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="h-full w-[1px] bg-[rgba(29,29,29,0.5)] my-0 mx-[45px] flex-1"
-        ></div>
+        <div class="h-full w-[1px] bg-gray-200 my-0 mx-[45px] flex-1"></div>
       </div>
       <div class="flex flex-col flex-grow">
         <div class="flex sm:hidden flex-row flex-wrap justify-between">
           <div
             class="flex sm:hidden flex-col justify-between sm:flex-row mb-4 lg:mb-0"
           >
-            <div class="text-[rgb(58,216,139)] flex items-center">
+            <div class="text-primary flex items-center">
               <i class="iconfont font-black">&#xe615;</i>
               <span>0.1%</span>
             </div>
@@ -105,7 +103,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
                 >24h Volume:</small
               >
               <p
-                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                 style="text-transform: uppercase"
               >
                 3.3b
@@ -118,7 +116,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
                 >MARKET CAP (fully diluted):</small
               >
               <p
-                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                 style="text-transform: uppercase"
               >
                 0.0
@@ -133,10 +131,10 @@ import StakeTab from './stake-tab/stake-tab.vue';
                 <div class="flex items-center w-full justify-between">
                   <div>
                     <p
-                      class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto"
+                      class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto"
                     >
                       <small
-                        class="opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-0 mr-[5px]"
+                        class="opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-0 mr-[5px]"
                         >$</small
                       >
                       <span>133.84</span>
@@ -144,9 +142,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
                   </div>
                 </div>
               </div>
-              <div
-                class="ml-1 md:ml-4 text-[rgb(58,216,139)] flex items-center"
-              >
+              <div class="ml-1 md:ml-4 text-primary flex items-center">
                 <i class="iconfont font-black">&#xe615;</i>
                 <span>0.1%</span>
               </div>
@@ -157,7 +153,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
                   >24H Volume ($)</small
                 >
                 <p
-                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                   style="text-transform: uppercase"
                 >
                   3.3b
@@ -168,7 +164,7 @@ import StakeTab from './stake-tab/stake-tab.vue';
                   >Market Cap in USD (fully diluted)</small
                 >
                 <p
-                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-[rgb(105,245,225)]"
+                  class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                   style="text-transform: uppercase"
                 >
                   112.5b

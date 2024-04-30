@@ -11,11 +11,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.556.0",
     "amcharts3": "^3.21.15",
+    "axios": "^1.6.8",
     "clsx": "^2.1.0",
-    "dotenv": "^16.4.5",
+    "dayjs": "^1.11.11",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
-    "axios": "^1.6.8"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

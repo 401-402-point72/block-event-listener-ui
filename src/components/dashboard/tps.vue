@@ -47,13 +47,13 @@ onMounted(() => {
         lineThickness: 2,
         title: 'intra-day',
         valueField: 'value1',
-        lineColor: 'rgb(105, 245, 225)', // 设置折线图的颜色为蓝色
+        lineColor: '#0784c3', // 设置折线图的颜色为蓝色
       },
     ],
     zoomOutButtonRollOverAlpha: 0.15,
     chartCursor: {
       showNextAvailable: false,
-      cursorColor: 'rgb(105, 245, 225)', // 设置底部工具的颜色为蓝色
+      cursorColor: '#0784c3', // 设置底部工具的颜色为蓝色
     },
     autoMarginOffset: 5,
     columnWidth: 1,
@@ -90,7 +90,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="my-6 flex flex-col min-w-0 bg-clip-border text-[rgb(211,211,211)] border-none bg-[rgb(49,49,49)] relative py-[15px] px-[30px] sm:py-[30px] sm:px-[60px] sm:rounded-[20px] overflow-visible"
+    class="my-6 flex flex-col min-w-0 bg-clip-border border-none bg-gray-100 relative py-[15px] px-[30px] sm:py-[30px] sm:px-[60px] sm:rounded-[20px] overflow-visible"
     style="box-shadow: rgb(0 0 0 / 20%) 0px 15px 30px 0px"
   >
     <div class="flex flex-col lg:flex-row">
@@ -102,7 +102,7 @@ onUnmounted(() => {
               >Current TPS</small
             >
             <p
-              class="leading-none mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto"
+              class="leading-none mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto"
             >
               <span>2,102</span>
             </p>
@@ -117,7 +117,7 @@ onUnmounted(() => {
                   >Current TPS</small
                 >
                 <p
-                  class="leading-none mb-0 font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-auto text-2xl sm:text-4xl"
+                  class="leading-none mb-0 font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto text-2xl sm:text-4xl"
                 >
                   <span>283,289,796,715</span>
                 </p>
@@ -127,9 +127,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="h-full w-[1px] bg-[rgba(29,29,29,0.5)] my-0 mx-[45px] flex-1"
-        ></div>
+        <div class="h-full w-[1px] bg-gray-200 my-0 mx-[45px] flex-1"></div>
       </div>
       <div class="flex flex-col h-full flex-grow">
         <small

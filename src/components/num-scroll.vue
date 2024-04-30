@@ -58,7 +58,7 @@ onUnmounted(() => {
         v-if="Object.is(parseInt(num), NaN)"
         :class="
           clsx(
-            'leading-[unset] mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap',
+            'leading-[unset] mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap',
             {
               'leading-[1.8]': num === '.',
             }
@@ -82,7 +82,7 @@ onUnmounted(() => {
         >
           <div
             v-for="item in Array.from({ length: 10 }, (_, i) => i)"
-            class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-[rgb(105,245,225)] whitespace-nowrap w-[24.44px] text-center leading-[1]"
+            class="mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-[24.44px] text-center leading-[1]"
           >
             {{ item }}
           </div>
@@ -91,7 +91,7 @@ onUnmounted(() => {
     </template>
     <small
       v-if="!!suffix"
-      class="opacity-30 text-4xl text-[rgb(105,245,225)] -tracking-[0.6px] font-light ml-[5px] leading-[1] mt-[14px]"
+      class="opacity-30 text-4xl text-primary -tracking-[0.6px] font-light ml-[5px] leading-[1] mt-[14px]"
       >{{ suffix }}</small
     >
   </div>
@@ -109,7 +109,7 @@ onUnmounted(() => {
     background-image: linear-gradient(
       to top,
       rgba(49, 49, 49, 0),
-      rgb(49, 49, 49) 90%
+      rgb(255 255 255) 90%
     );
     width: 100%;
     height: 24px;
@@ -123,7 +123,7 @@ onUnmounted(() => {
     pointer-events: none;
     background-image: linear-gradient(
       rgba(49, 49, 49, 0),
-      rgb(49, 49, 49) 100%
+      rgb(255 255 255) 100%
     );
     width: 100%;
     height: 24px;

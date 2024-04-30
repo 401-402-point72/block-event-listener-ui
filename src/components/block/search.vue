@@ -1,6 +1,4 @@
-<script setup lang="ts">
-// import Search from '@/components/dashboard/search.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div
@@ -10,7 +8,7 @@
       class="text-[#262626] text-2xl sm:mb-0"
       style="text-transform: capitalize"
     >
-      transactions
+      Blocks
     </h3>
     <div
       class="sm:relative sm:top-[unset] sm:left-[unset] sm:right-[unset] sm:flex-[unset] sm:m-0 sm:ml-[50px] sm:w-[750px]"
