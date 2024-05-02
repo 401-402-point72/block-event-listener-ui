@@ -1,14 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { s3DataType } from '@/components/data';
+import s3Client from '@/services/s3Client';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue';
 dayjs.extend(relativeTime);
 
-const height = ref(0);
 const { params } = useRoute();
-const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
+const bucketName = 'rustbucketethereum';
+const blockId = params.id as string;
+const record = ref<s3DataType['content'] | undefined>(undefined);
+
+async function fetchs3Data() {
+  const getObjectParams = { Bucket: bucketName, Key: blockId };
+  const objectData = await s3Client.send(new GetObjectCommand(getObjectParams));
+  const _data = await objectData?.Body?.transformToString();
+  const jsonContent: s3DataType['content'] = JSON.parse(_data || ''); // Parse the raw data
+  record.value = jsonContent;
+}
+
+onMounted(() => {
+  fetchs3Data();
+});
 </script>
 
 <template>
@@ -19,7 +34,9 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
       <div class="flex flex-col gap-[0.25rem]">
         <div class="flex flex-wrap items-center gap-[0.25rem]">
           <h1 class="text-xl font-bold mr-[0.25rem] mb-0">Block</h1>
-          <div class="text-[#6c757d]">#{{ params.id }}</div>
+          <div class="text-[#6c757d]">
+            #{{ parseInt(record?.blockNumber!, 16) }}
+          </div>
         </div>
       </div>
     </div>
@@ -33,7 +50,9 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
         >
           Block Height:
         </div>
-        <div class="col md:w-[75%]">{{ params.id }}</div>
+        <div class="col md:w-[75%]">
+          {{ parseInt(record?.blockNumber!, 16) }}
+        </div>
       </div>
       <div class="row mb-[1rem]">
         <div
@@ -42,7 +61,7 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Timestamp:
         </div>
         <div class="col md:w-[75%]">
-          {{ dayjs(record.content.timestamp).fromNow() }}
+          {{ dayjs(Number(record?.timestamp) * 1000).fromNow() }}
         </div>
       </div>
       <div class="row mb-[1rem]">
@@ -52,7 +71,12 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Transactions:
         </div>
         <div class="col md:w-[75%]">
-          {{ record.content.numberOfTransactions }} transactions in this block
+          <a
+            :href="`/transactions?bid=${record?.blockNumber}`"
+            class="text-[rgb(7,132,195)]"
+          >
+            {{ record?.numberOfTransactions }} transactions in this block
+          </a>
         </div>
       </div>
       <hr class="opacity-75 my-[1rem] mx-0" />
@@ -63,7 +87,7 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Fee Recipient:
         </div>
         <div class="col md:w-[75%]">
-          {{ record.content.authorAddress }}
+          {{ record?.authorAddress }}
         </div>
       </div>
       <div class="row mb-[1rem]">
@@ -73,7 +97,7 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Total Difficulty:
         </div>
         <div class="col md:w-[75%]">
-          {{ record.content.difficulty }}
+          {{ parseInt(record?.difficulty!, 16).toLocaleString() }}
         </div>
       </div>
       <div class="row mb-[1rem]">
@@ -82,7 +106,9 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
         >
           Size:
         </div>
-        <div class="col md:w-[75%]">{{ record.content.size }} bytes</div>
+        <div class="col md:w-[75%]">
+          {{ parseInt(record?.size!, 16).toLocaleString() }} bytes
+        </div>
       </div>
       <hr class="opacity-75 my-[1rem] mx-0" />
       <div class="row mb-[1rem]">
@@ -92,7 +118,7 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Gas Used:
         </div>
         <div class="col md:w-[75%]">
-          {{ parseInt(record.content.blockGasUsed, 10) }}
+          {{ parseInt(record?.blockGasUsed!, 16).toLocaleString() }}
           <!-- <span class="text-[#6c757d]"> (45.44%)</span> -->
         </div>
       </div>
@@ -103,55 +129,31 @@ const record = JSON.parse(window.localStorage.getItem('blockItem')! || '{}');
           Gas Limit:
         </div>
         <div class="col md:w-[75%]">
-          {{ parseInt(record.content.gasLimit, 10) }}
+          {{ parseInt(record?.gasLimit!, 16).toLocaleString() }}
         </div>
       </div>
-    </div>
+      <hr class="opacity-75 my-[1rem] mx-0" />
 
-    <div class="card p-[1.25rem] mb-[0.75rem]">
-      <div
-        :style="{
-          height: height + 'px',
-          overflow: 'hidden',
-          transition: 'height 0.2s',
-        }"
-      >
-        <div class="row mb-[1rem]">
-          <div
-            class="flex-grow-0 flex-shrink-0 basis-auto w-auto md:w-[25%] md:text-[#6c757d] md:font-normal text-[#081d35] font-medium mb-[0.25rem] md:mb-0"
-          >
-            Hash:
-          </div>
-          <div class="col md:w-[75%]">
-            {{ record.content.blockHash }}
-          </div>
-        </div>
-        <div class="row mb-[1rem]">
-          <div
-            class="flex-grow-0 flex-shrink-0 basis-auto w-auto md:w-[25%] md:text-[#6c757d] md:font-normal text-[#081d35] font-medium mb-[0.25rem] md:mb-0"
-          >
-            Parent Hash:
-          </div>
-          <div class="col md:w-[75%]">
-            0xc16484104d2f59eaea1f208fb75e1c70e010c6215b96b41e1dc2fdf1532fa6a9
-          </div>
-        </div>
-        <hr class="opacity-75 my-[1rem] mx-0" />
-      </div>
-      <div class="row">
+      <div class="row mb-[1rem]">
         <div
           class="flex-grow-0 flex-shrink-0 basis-auto w-auto md:w-[25%] md:text-[#6c757d] md:font-normal text-[#081d35] font-medium mb-[0.25rem] md:mb-0"
         >
-          More Details:
+          Hash:
         </div>
         <div class="col md:w-[75%]">
-          <span
-            class="text-[rgb(7,132,195)] cursor-pointer"
-            @click="height = height === 0 ? 100 : 0"
-            >Click to show more</span
-          >
+          {{ record?.blockHash }}
         </div>
       </div>
+      <!-- <div class="row mb-[1rem]">
+        <div
+          class="flex-grow-0 flex-shrink-0 basis-auto w-auto md:w-[25%] md:text-[#6c757d] md:font-normal text-[#081d35] font-medium mb-[0.25rem] md:mb-0"
+        >
+          Parent Hash:
+        </div>
+        <div class="col md:w-[75%]">
+          0xc16484104d2f59eaea1f208fb75e1c70e010c6215b96b41e1dc2fdf1532fa6a9
+        </div>
+      </div> -->
     </div>
   </div>
 </template>

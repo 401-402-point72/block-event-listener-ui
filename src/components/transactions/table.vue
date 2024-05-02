@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Text from '@/components/text.vue';
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, watch } from 'vue';
 import s3Client from '@/services/s3Client.ts';
 import {
   GetObjectCommand,
@@ -17,10 +17,13 @@ dayjs.extend(relativeTime);
 const bucketName = 'rustbucketethereum';
 const s3Objects = reactive<_Object[]>([]);
 const data = reactive<transfromTXDataType[]>([]);
-const { query } = useRoute();
+const defaultData = reactive<transfromTXDataType[]>([]);
+
+const route = useRoute();
+const bid = route.query?.bid as string | undefined;
 
 const pageProps = reactive({
-  pageNum: Number(query?.p || 1) as number,
+  pageNum: Number(route.query?.p || 1) as number,
   pageSize: 500,
 });
 
@@ -46,7 +49,7 @@ async function fetchS3Objects() {
 function transformData(data: s3DataType[]) {
   const arr = [];
   for (const object of data) {
-    const transactions = object.content.transactions;
+    const transactions = object.content.transactions || [];
     for (const transaction of transactions) {
       arr.push({
         ...transaction,
@@ -66,36 +69,74 @@ async function s3DataAsJson() {
   }
 
   const fullData: s3DataType[] = [];
-  for (const object of s3Objects) {
-    try {
-      const getObjectParams = { Bucket: bucketName, Key: object.Key };
-      const objectData = await s3Client.send(
-        new GetObjectCommand(getObjectParams)
-      );
+  if (!bid) {
+    for (const object of s3Objects) {
+      try {
+        const getObjectParams = { Bucket: bucketName, Key: object.Key };
+        const objectData = await s3Client.send(
+          new GetObjectCommand(getObjectParams)
+        );
 
-      // Read object data and convert to a readable JSON format
-      const _data = await objectData?.Body?.transformToString();
-      const jsonContent: s3DataType['content'] = JSON.parse(_data || ''); // Parse the raw data
-      const length = pageProps.pageNum * pageProps.pageSize; // total
-      if (result.length < length) {
-        fullData.push({ key: object.Key, content: jsonContent });
-        const newData = transformData(fullData);
-        result.push(...newData);
-      } else {
-        const start = pageProps.pageNum === 1 ? 0 : pageProps.pageSize;
-        result = result.slice(start, length);
-        break;
+        // Read object data and convert to a readable JSON format
+        const _data = await objectData?.Body?.transformToString();
+        const jsonContent: s3DataType['content'] = JSON.parse(_data || ''); // Parse the raw data
+        const length = pageProps.pageNum * pageProps.pageSize; // total
+        if (result.length < length) {
+          fullData.push({ key: object.Key, content: jsonContent });
+          const newData = transformData(fullData);
+          result.push(...newData);
+        } else {
+          const start = pageProps.pageNum === 1 ? 0 : pageProps.pageSize;
+          result = result.slice(start, length);
+          break;
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    }
+  } else {
+    const getObjectParams = { Bucket: bucketName, Key: bid };
+    const objectData = await s3Client.send(
+      new GetObjectCommand(getObjectParams)
+    );
+    const _data = await objectData?.Body?.transformToString();
+    const jsonContent: s3DataType['content'] = JSON.parse(_data || ''); // Parse the raw data
+    const length = pageProps.pageNum * pageProps.pageSize; // total
+    if (result.length < length) {
+      fullData.push({ key: bid, content: jsonContent });
+      const newData = transformData(fullData);
+      result.push(...newData);
+    } else {
+      const start = pageProps.pageNum === 1 ? 0 : pageProps.pageSize;
+      result = result.slice(start, length);
     }
   }
+  defaultData.push(...result);
   data.push(...result);
 }
+
+watch(
+  () => route.query.q,
+  (now, _) => {
+    const q = now as string;
+    if (q && data.length) {
+      const newData = data.filter((o) => !!o.hash.includes(q));
+      data.splice(0, data.length);
+      data.push(...newData);
+    } else {
+      data.splice(0, data.length);
+      data.push(...defaultData);
+    }
+  },
+  {
+    deep: true,
+  }
+);
 
 onMounted(() => {
   s3DataAsJson();
 });
+``;
 </script>
 
 <template>
@@ -109,7 +150,7 @@ onMounted(() => {
           <ul
             class="list-none gap-1 flex justify-center items-center mb-2 mt-2"
           >
-            <li>
+            <li v-if="!bid">
               <a
                 class="p-2 bg-[#f8f9fa]"
                 :href="`/transactions/?p=${
@@ -119,12 +160,17 @@ onMounted(() => {
                 Previous
               </a>
             </li>
-            <li>
+            <li v-if="!bid">
               <span class="page-link whitespace-nowrap p-2 bg-[#f8f9fa]"
                 >Page {{ pageProps.pageNum }} of {{ pageProps.pageSize }}</span
               >
             </li>
-            <li>
+            <li v-else>
+              <span class="page-link whitespace-nowrap p-2 bg-[#f8f9fa]">
+                A total of {{ data.length }} transactions found
+              </span>
+            </li>
+            <li v-if="!bid">
               <a
                 class="p-2 bg-[#f8f9fa]"
                 :href="`/transactions/?p=${pageProps.pageNum + 1}`"
@@ -210,7 +256,7 @@ onMounted(() => {
                       @click="blockClick(item)"
                     >
                       <span class="text-ellipsis overflow-hidden">{{
-                        item.blockNumber
+                        parseInt(item.blockNumber!, 16)
                       }}</span>
                     </a>
                   </span>
@@ -218,7 +264,7 @@ onMounted(() => {
                 <td
                   class="border-none text-ellipsis overflow-hidden font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle text-[#000]"
                 >
-                  {{ dayjs(item.timestamp).fromNow() }}
+                  {{ dayjs(Number(item.timestamp) * 1000).fromNow() }}
                 </td>
                 <td
                   class="text-[#000] border-none text-ellipsis overflow-hidden font-normal pt-[0.9375rem] px-[1.375rem] pb-[0.875rem] align-middle"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted,  watch } from 'vue';
 import s3Client from '@/services/s3Client.ts';
 import {
   GetObjectCommand,
@@ -16,10 +16,10 @@ dayjs.extend(relativeTime);
 const bucketName = 'rustbucketethereum';
 const s3Objects = reactive<_Object[]>([]);
 const data = reactive<s3DataType[]>([]);
-const { query } = useRoute();
+const route = useRoute();
 
 const pageProps = reactive({
-  pageNum: Number(query?.p || 1) as number,
+  pageNum: Number(route.query?.p || 1) as number,
   pageSize: 10,
 });
 
@@ -68,6 +68,19 @@ async function s3DataAsJson() {
   }
   data.push(...fullData);
 }
+
+
+watch(()=>route.query.q,(now,_)=>{
+  const q = now as string
+  if(q && data.length){
+  const newData = data.filter(o=>!!parseInt(o.key!,16).toString().includes(q)  )
+  data.splice(0,data.length)
+  data.push(...newData)
+  }
+  
+},{
+  deep:true
+})
 
 onMounted(() => {
   s3DataAsJson();
@@ -171,7 +184,7 @@ onMounted(() => {
                     >
                       <span
                         class="ml-[5px] text-ellipsis overflow-hidden max-w-[10rem] block"
-                        >{{ item.key }}</span
+                        >{{ parseInt(item.key!, 16) }}</span
                       >
                     </a>
                   </div>
@@ -182,7 +195,7 @@ onMounted(() => {
                   <span
                     class="relative overflow-visible inline-flex mr-[4px] text-[#000]"
                   >
-                    {{ dayjs(item.content.timestamp).fromNow() }}
+                    {{ dayjs(Number(item.content.timestamp) * 1000).fromNow() }}
                   </span>
                 </td>
                 <td
@@ -200,7 +213,9 @@ onMounted(() => {
                 >
                   <div class="relative cursor-default inline-flex">
                     <div class="relative cursor-default inline-block">
-                      {{ item.content.blockGasUsed }}
+                      {{
+                        parseInt(item.content.blockGasUsed, 16).toLocaleString()
+                      }}
                     </div>
                   </div>
                 </td>
@@ -211,7 +226,7 @@ onMounted(() => {
                     <div
                       class="relative cursor-default inline-block text-ellipsis overflow-hidden text-[#000]"
                     >
-                      {{ item.content.gasLimit }}
+                      {{ parseInt(item.content.gasLimit).toLocaleString() }}
                     </div>
                   </div>
                 </td>

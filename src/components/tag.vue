@@ -1,8 +1,3 @@
-<!--
-    1. Tag component
-        目前没有做任何公共组件处理
--->
-
 <script setup lang="ts"></script>
 
 <template>

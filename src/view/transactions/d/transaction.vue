@@ -55,7 +55,7 @@ const record = JSON.parse(
             :href="`/block/${record.blockNumber}`"
             class="text-[rgb(7,132,195)]"
             @click="blockClick(record)"
-            >{{ record.blockNumber }}</a
+            >{{ parseInt(record.blockNumber, 16) }}</a
           >
         </div>
       </div>
@@ -66,7 +66,7 @@ const record = JSON.parse(
           Timestamp:
         </div>
         <div class="col md:w-[75%]">
-          {{ dayjs(record.timestamp).fromNow() }}
+          {{ dayjs(Number(record.timestamp) * 1000).fromNow() }}
         </div>
       </div>
       <hr class="opacity-75 my-[1rem] mx-0" />
@@ -100,6 +100,16 @@ const record = JSON.parse(
         </div>
         <div class="col md:w-[75%]">
           {{ record.ethValue }}
+        </div>
+      </div>
+      <div class="row mb-[1rem]">
+        <div
+          class="flex-grow-0 flex-shrink-0 basis-auto w-auto md:w-[25%] md:text-[#6c757d] md:font-normal text-[#081d35] font-medium mb-[0.25rem] md:mb-0"
+        >
+          TransactionType:
+        </div>
+        <div class="col md:w-[75%]">
+          {{ record.transactionType }}
         </div>
       </div>
     </div>

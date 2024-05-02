@@ -8,8 +8,9 @@
       <div class="flex items-center justify-between">
         <div class="lg:flex hidden lg:flex-1">
           <div class="lg:flex hidden lg:flex-1">
-            <RouterLink to="/" class="lg:w-[230px] inline-flex">
+            <RouterLink to="/" class="lg:w-[300px] inline-flex items-center">
               <img src="/logo.png" class="w-[44px]" />
+              <span class="ml-2 text-2xl font-bold">Point-72 EthWatch</span>
             </RouterLink>
           </div>
         </div>
@@ -18,7 +19,9 @@
             <img src="/logo.png" class="w-[44px]" />
           </RouterLink>
         </div>
-        <div class="lg:hidden flex items-center">33</div>
+        <div class="lg:hidden flex items-center">
+          <!-- list nav -->
+        </div>
       </div>
     </div>
   </header>

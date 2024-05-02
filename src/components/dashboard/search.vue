@@ -1,4 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const emits = defineEmits(['enterCb']);
+defineProps({
+  placeholder: {
+    type: String,
+    required: true,
+  },
+});
+const enterCb = (e: any) => {
+  const v = e.target.value;
+  emits('enterCb', v);
+};
+</script>
 
 <template>
   <div class="flex items-center mb-6 justify-between min-h-9">
@@ -25,7 +37,7 @@
                       autocomplete="off"
                       spellcheck="false"
                       type="text"
-                      placeholder="Search for slots, accounts, transactions, programs, tokens, and validators..."
+                      :placeholder="placeholder"
                       style="
                         box-sizing: content-box;
                         width: 100%;
@@ -38,6 +50,7 @@
                         color: inherit;
                       "
                       class="overflow-visible m-0"
+                      @keydown.enter="enterCb"
                     />
                   </div>
                 </div>

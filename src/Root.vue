@@ -16,7 +16,7 @@ import Nav from '@/components/nav.vue';
         </div>
       </div>
     </div>
-    <footer class="pb-12">
+    <!-- <footer class="pb-12">
       <div
         class="w-full px-[15px] mx-auto sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] pt-12 sm:pt-0"
       >
@@ -51,14 +51,15 @@ import Nav from '@/components/nav.vue';
           </div>
         </div>
       </div>
-    </footer>
+    </footer> -->
   </div>
 </template>
 
 <style lang="scss">
 .normal-content {
-  background: url('/01.svg') right top / 50vmax no-repeat,
-    url('/02.svg') left top / 50vmax;
-  background-position: right top, left top;
+  width: 100%;
+  // background: url('/01.svg') right top / 50vmax no-repeat,
+  //   url('/02.svg') left top / 50vmax;
+  // background-position: right top, left top;
 }
 </style>

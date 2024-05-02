@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
+defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
 let chart;
 const main = ref(null);
 onMounted(() => {
@@ -104,7 +110,9 @@ onUnmounted(() => {
             <p
               class="leading-none mb-0 text-4xl font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto"
             >
-              <span>2,102</span>
+              <span>
+                {{ data.ethereum?.ath ? data.ethereum?.ath.toFixed(2) : 'N/A' }}
+              </span>
             </p>
           </div>
         </div>
@@ -114,12 +122,16 @@ onUnmounted(() => {
               <div>
                 <small
                   class="text-sm text-[rgb(136,136,136)] -tracking-[0.5px] flex pb-0 items-center"
-                  >Current TPS</small
+                  >24-Hour High</small
                 >
                 <p
                   class="leading-none mb-0 font-semibold -tracking-[0.3px] text-primary whitespace-nowrap w-auto text-2xl sm:text-4xl"
                 >
-                  <span>283,289,796,715</span>
+                  <span>{{
+                    data.ethereum?.high_24h
+                      ? data.ethereum?.high_24h.toFixed(2)
+                      : 'N/A'
+                  }}</span>
                 </p>
               </div>
             </div>

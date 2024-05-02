@@ -136,7 +136,7 @@ onMounted(() => {
         >
           <div class="whitespace-nowrap overflow-hidden">
             <a :href="`/block/${item.key}`" @click="blockClick(item)">
-              <span class="text-primary">{{ item.key }}</span>
+              <span class="text-primary">{{ parseInt(item.key!, 16) }}</span>
             </a>
           </div>
           <div
@@ -148,7 +148,7 @@ onMounted(() => {
           <div class="flex justify-end">
             <div class="relative inline-flex">
               <div class="relative inline-block text-xs">
-                {{ dayjs(item.content.timestamp as string).fromNow() }}
+                {{ dayjs(Number(item.content.timestamp) * 1000).fromNow() }}
               </div>
             </div>
           </div>
