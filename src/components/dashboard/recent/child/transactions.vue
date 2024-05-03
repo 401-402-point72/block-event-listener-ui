@@ -35,7 +35,8 @@ async function s3DataAsJson() {
   if (s3Objects.length === 0) {
     await fetchS3Objects();
   }
-  const object = s3Objects[0];
+
+  const object = s3Objects[s3Objects.length - 1];
   const getObjectParams = { Bucket: bucketName, Key: object.Key };
   const objectData = await s3Client.send(new GetObjectCommand(getObjectParams));
   // Read object data and convert to a readable JSON format

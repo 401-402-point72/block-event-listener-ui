@@ -31,6 +31,9 @@ async function s3DataAsJson() {
   if (s3Objects.length === 0) {
     await fetchS3Objects();
   }
+  s3Objects.sort((a, b) => {
+    return dayjs(b.LastModified).unix() - dayjs(a.LastModified).unix();
+  });
 
   for (const object of s3Objects) {
     try {

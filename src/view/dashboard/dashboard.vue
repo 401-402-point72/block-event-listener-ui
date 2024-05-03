@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import Search from '@/components/dashboard/search.vue';
+import Search from './search.vue';
 import Time from '@/components/dashboard/time.vue';
 import Tps from '@/components/dashboard/tps.vue';
 import Stake from '@/components/dashboard/stake.vue';
@@ -14,7 +14,6 @@ let timeout = 0;
 const data = reactive({});
 const number = ref('');
 const progress = ref(0);
-const lastTime = ref(0);
 const time = ref('0');
 const fetchCoinData = async () => {
   const response = await coinGeckoClient.get('/coins/markets', {
@@ -45,19 +44,22 @@ async function fetchS3Objects() {
     const response = await s3Client.send(
       new ListObjectsV2Command({ Bucket: bucketName })
     );
-    const _time = dayjs(response.Contents?.[0]?.LastModified).unix();
-    lastTime.value = _time;
-    if (lastTime.value !== 0) {
-      time.value = (_time - lastTime.value).toFixed(2).toString();
-    }
 
-    const value = parseInt(response.Contents?.[0]?.Key!, 16).toString();
-    if (number.value !== value) {
-      progress.value = 0;
-    } else if (progress.value < 100) {
-      progress.value += 0.5;
-    }
+    const last = dayjs(
+      response.Contents?.[response.Contents?.length - 1]?.LastModified
+    ).unix();
+    const pre = dayjs(
+      response.Contents?.[response.Contents?.length - 2]?.LastModified
+    ).unix();
+
+    time.value = (last - pre).toFixed(2).toString();
+
+    const value = parseInt(
+      response.Contents?.[response.Contents?.length - 1]?.Key!,
+      16
+    ).toString();
     number.value = value;
+    progress.value = Number(number.value) % 32;
   } catch (error) {
     console.error(`Error connecting to S3: ${error}`);
   }
@@ -69,7 +71,7 @@ const getData = async () => {
   // @ts-ignore
   timeout = setTimeout(() => {
     getData();
-  }, 3000);
+  }, 10 * 1000);
 };
 
 onMounted(() => {
@@ -84,7 +86,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- <Search /> -->
+  <Search placeholder="Search..." />
   <Time :number="number" :progress="progress" :time="time" />
   <Tps :data="data" />
   <Stake :data="data" />

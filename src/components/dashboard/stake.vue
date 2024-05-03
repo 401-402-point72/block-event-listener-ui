@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import clsx from 'clsx';
-import StakeTab from './stake-tab/stake-tab.vue';
+// import StakeTab from './stake-tab/stake-tab.vue';
 import { convertUsdToMillion } from '@/utils/utils';
-const props = defineProps({
+defineProps({
   data: {
     type: Object,
     required: true,
   },
 });
-console.log(props);
 </script>
 
 <template>
@@ -115,9 +114,27 @@ console.log(props);
           <div
             class="flex sm:hidden flex-col justify-between sm:flex-row mb-4 lg:mb-0"
           >
-            <div class="text-primary flex items-center">
-              <i class="iconfont font-black">&#xe615;</i>
-              <span>0.1%</span>
+            <div
+              :class="
+                clsx('ml-1 md:ml-4 flex items-center', {
+                  'text-[#1afa29]':
+                    data.ethereum?.price_change_percentage_24h.toFixed(2) > 0,
+                  'text-[red]':
+                    data.ethereum?.price_change_percentage_24h.toFixed(2) < 0,
+                })
+              "
+            >
+              <i
+                class="iconfont font-black text-[#1afa29]"
+                v-if="data.ethereum?.price_change_percentage_24h.toFixed(2) > 0"
+                >&#xe615;</i
+              >
+              <i class="iconfont font-black text-[red]" v-else>&#xe618;</i>
+              <span>
+                {{
+                  data.ethereum?.price_change_percentage_24h.toFixed(2)
+                }}%</span
+              >
             </div>
           </div>
           <div class="flex flex-col items-end">
@@ -131,20 +148,22 @@ console.log(props);
                 class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                 style="text-transform: uppercase"
               >
-                3.3b
+                {{
+                  data.ethereum?.total_volume.toFixed(2)
+                }}
               </p>
             </div>
             <div class="flex justify-start items-center w-full">
               <small
                 class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
                 style="text-transform: uppercase"
-                >MARKET CAP (fully diluted):</small
+                >Market Cap in USD:</small
               >
               <p
                 class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                 style="text-transform: uppercase"
               >
-                0.0
+                {{ data.ethereum?.market_cap?.toFixed(2) }}
               </p>
             </div>
           </div>
@@ -199,34 +218,32 @@ console.log(props);
             <div class="flex flex-col items-end">
               <div class="flex justify-end items-center w-full">
                 <small class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
-                  >24h Volume:</small
+                  >24h Volume in USD:</small
                 >
                 <p
                   class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                   style="text-transform: uppercase"
                 >
                   {{
-                    convertUsdToMillion(data.ethereum?.total_volume)?.toFixed(2)
+                    data.ethereum?.total_volume.toFixed(2)
                   }}
                 </p>
               </div>
               <div class="flex justify-end items-center w-full">
                 <small class="text-[rgb(136,136,136)] text-sm -tracking-[0.4px]"
-                  >Market Cap in USD</small
+                  >Market Cap in USD:</small
                 >
                 <p
                   class="mb-0 text-2xl -tracking-[0.4px] ml-[10px] text-primary"
                   style="text-transform: uppercase"
                 >
-                  {{
-                    convertUsdToMillion(data.ethereum?.market_cap)?.toFixed(2)
-                  }}
+                  {{ data.ethereum?.market_cap.toFixed(2) }}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <StakeTab />
+        <!-- <StakeTab /> -->
       </div>
     </div>
   </div>

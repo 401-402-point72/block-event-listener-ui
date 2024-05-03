@@ -4,7 +4,11 @@ export const navConfig = [
     path: '/',
   },
   {
-    title: 'Transactions',
+    title: 'Block List',
+    path: '/blocks',
+  },
+  {
+    title: 'Transaction List',
     path: '/transactions',
   },
 ];
